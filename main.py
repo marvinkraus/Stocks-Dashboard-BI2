@@ -37,11 +37,12 @@ def main():
     pass
 
 def plot_raw_data():
-    st.subheader("""Daily **closing price** for  Gamestop """)
+    st.subheader("""Daily **opening and closing price** for  Gamestop """)
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Closing Price'))
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Opening Price'))
-    fig.layout.update(title_text="Stock History for Gamestop", xaxis_rangeslider_visible=True, width=800, height=600)
+    fig.layout.update(title_text="Stock History for Gamestop", xaxis_rangeslider_visible=True, width=800, height=800)
+    fig.update_yaxes(dtick=0.5) # change size of the y-axis steps 
     
     st.plotly_chart(fig)
 
