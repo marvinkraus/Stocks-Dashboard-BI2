@@ -41,11 +41,7 @@ def plot_raw_data():
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Closing Price'))
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Opening Price'))
-    fig.layout.update(title_text="Stock History for Gamestop", xaxis_rangeslider_visible=True)
-    fig.update_layout(
-    margin=dict(l=4, r=4, t=4, b=4),
-    paper_bgcolor="LightSteelBlue",
-)   
+    fig.layout.update(title_text="Stock History for Gamestop", xaxis_rangeslider_visible=True, width=800, height=600)
     
     st.plotly_chart(fig)
 
