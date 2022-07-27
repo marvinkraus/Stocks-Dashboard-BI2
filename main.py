@@ -9,6 +9,7 @@ from nltk import ngrams
 from nltk.corpus import stopwords
 from nltk.sentiment import SentimentIntensityAnalyzer
 
+nltk.download('punkt')
 
 # https://github.com/luigibr1/Streamlit-StockSearchWebApp/blob/master/web_app_v3.py
 # https://share.streamlit.io/daniellewisdl/streamlit-cheat-sheet/app.py
@@ -34,8 +35,8 @@ def load_data(ticker):
 # Global variables
 st.title("Stock Web-App")
 data = load_data('GME')
-file = open('wallstreetbet.txt')
-wallstreetbets_data = file.read()
+#file = open('wallstreetbet.txt')
+#wallstreetbets_data = file.read(encoding='uft-8')
 
 def main():
     pass
@@ -45,8 +46,8 @@ def plot_raw_data():
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Closing Price'))
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Opening Price'))
-    fig.layout.update(title_text="Stock History for Gamestop", xaxis_rangeslider_visible=True, width=800, height=800)
-    fig.update_yaxes(dtick=0.5) # change size of the y-axis steps 
+    fig.layout.update(title_text="Stock History for Gamestop", xaxis_rangeslider_visible=True, width=1000, height=900)
+    fig.update_yaxes(dtick=0.3) # change size of the y-axis steps 
     
     st.plotly_chart(fig)
 
@@ -61,43 +62,17 @@ def preprocessing():
     #tokenize by words and make into nltk text
     tokens = nltk.word_tokenize(raw)
     text = nltk.Text(tokens)
+    st.write(tokens)
     return text
 
 
-def get_cleared_text(text):
-    cleared = filter_punctuation(text)
-    cleared = filter_stopwords(cleared)
-    return cleared
-
-
-def wordcloud():
-    
-    st.title("Wordcloud")
-    stop_words = set(stopwords.words("english"))
-    concat_quotes = ' '.join([i for i in wallstreetbets_data.text_without_stopwords.astype(str)])
-
-    t=stylecloud.gen_stylecloud(  # file_path='SJ-Speech.txt',
-
-                                text=concat_quotes,
-
-                                icon_name='fas fa-apple-alt',
-
-                                background_color='black',
-
-                                output_name='apple.png',
-
-                                collocations=False,
-
-                                custom_stopwords=stop_words)
-
-    st.image(t)
 
 #______________________________________________________________________________________________________________________________________________________________________________________#
 
 
 def main():
     plot_raw_data()
-    wordcloud()
+    preprocessing()
     #st.write(get_cleared_text(text))
     
 
