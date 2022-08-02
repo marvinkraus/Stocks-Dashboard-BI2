@@ -82,9 +82,48 @@ def get_cleared_text(text):
     return cleared
 
 
-def dispersion_plot(nltk_text):
-    nltk_text.dispersion_plot(["good", "bad", "buy", "sell"])
-    # schauen ob diese Funktion genau so gecallt werden kann in Streamlit 
+
+def dispersion_plot_vanilla(nltk_text):
+    words = ["good", "bad", "buy", "sell"]
+    plt.ion()
+    dispersion_plot(nltk_text, words)
+    plt.ioff()
+    plt.savefig('dispersion_plot.png')
+    plt.show(block=False)
+    plt.pause(1)
+    plt.close()
+    
+    st.image('dispersion_plot.png')
+
+
+
+def dispersion_plotting(nltk_text):
+    #words to filter for
+    words = ["good", "bad", "buy", "sell"]
+
+    #step 1: iterate over all of the nltk_text and
+    #step 2: compare with the given words and then save offset
+    points = [(x, y) for x in range(len(nltk_text))
+              for y in range(len(words)) if nltk_text[x] == words[y]]
+
+    #zip aggregates 0 or more iteratables into a tuple
+    if points:
+        x, y = zip(*points)
+    else:
+        x = y = ()
+
+    plt.plot(x, y, "rx", scalex=1)
+    plt.yticks(range(len(words)), words, color="g")
+    plt.xticks()
+    plt.ylim(-1, len(words))
+    plt.title("Lexical Dispersion Plot")
+    plt.xlabel("Word Offset")
+
+
+    plt.savefig('disp_plot')
+
+    plt.show()
+
 
 def filter_punctuation(nltk_text):
     text = [word.lower() for word in nltk_text if word.isalpha()]
@@ -104,17 +143,28 @@ def filter_stopwords(list_to_be_cleared):
 
 
 
-def frequency_dist(cleared_list):
-    frequencydist = FreqDist(cleared_list)
-    frequencydist.plot(20, cumulative=True)
-    #plt.ioff()
-    #plt.close()
-    #savedPicture = frequencydist.plot(20, cumulative=True)
-    plt.savefig("frequency_dist.png")
-    plt.show()
-    image = Image.open("frequency_dist.png")
-    st.image(image,caption='hallo')
+def frequency_dist_dict(cleared_list):
+    frequency_dist = FreqDist(cleared_list)
+
+    #dictionaries cant be sorted so its getting sorted as a list and then cast back into a dict
+    od = dict(sorted(frequency_dist.items(), key=lambda item: item[1], reverse=True))
+
+    #dictionaries cant be sliced so conversion to list in order to slice the first 20 instances (can be changed)
+    first_twenty = list(od.items())[:20]
+
+    #conversion back into a dict
+    final_dict = {}
+    final_dict.update(first_twenty)
     
+    keyList = list(final_dict.keys())
+    valueList = list(final_dict.values())
+    
+    
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Test'))
+    st.plotly_chart(fig)
+
+    return final_dict   
     
 
 def collocations(cleared_list):
@@ -156,20 +206,25 @@ def main():
     text = preprocessing()
     cleared = get_cleared_text(text)
     collocations(cleared)
-    #st.write(get_cleared_text(text))
+    frequency_dist_dict(cleared)
+    dispersion_plot_vanilla(text)
     
     
+   
     
     
-    beispieldict = {"hans": 1, "hansel": 2,"hansäl": 3}
-    keyList = list(beispieldict.keys())
-    valueList = list(beispieldict.values())
-    #print(type(beispieldict.keys()))
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=keyList, y=valueList, name='hahja'))
-    st.plotly_chart(fig)
-    st.write(beispieldict)
     
 
 if __name__ == "__main__":
     main()
+    
+    
+    
+#beispieldict = {"hans": 1, "hansel": 2,"hansäl": 3}
+    #keyList = list(beispieldict.keys())
+    #valueList = list(beispieldict.values())
+    #print(type(beispieldict.keys()))
+    #fig = go.Figure()
+    #fig.add_trace(go.Scatter(x=keyList, y=valueList, name='hahja'))
+    #st.plotly_chart(fig)
+    #st.write(beispieldict)
