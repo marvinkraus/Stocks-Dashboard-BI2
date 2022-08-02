@@ -11,7 +11,9 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 from nltk import FreqDist, WordNetLemmatizer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
-import matplotlib as plt 
+import matplotlib.pyplot as plt 
+import numpy
+from nltk.draw import dispersion_plot
 
 #nltk.download('wordnet')
 #nltk.download('omw-1.4')
