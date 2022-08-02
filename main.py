@@ -79,7 +79,7 @@ def preprocessing():
 def get_cleared_text(text):
     cleared = filter_punctuation(text)
     cleared = filter_stopwords(cleared)
-    return cleared
+
 
 
 
@@ -92,7 +92,6 @@ def dispersion_plot_vanilla(nltk_text):
     plt.show(block=False)
     plt.pause(1)
     plt.close()
-    
     st.image('dispersion_plot.png')
 
 
