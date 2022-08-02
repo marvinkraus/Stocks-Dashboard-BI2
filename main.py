@@ -80,7 +80,7 @@ def get_cleared_text(text):
     cleared = filter_punctuation(text)
     cleared = filter_stopwords(cleared)
 
-
+    return cleared
 
 
 def dispersion_plot_vanilla(nltk_text):
