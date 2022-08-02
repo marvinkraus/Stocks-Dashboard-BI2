@@ -117,10 +117,7 @@ def dispersion_plotting(nltk_text):
     plt.ylim(-1, len(words))
     plt.title("Lexical Dispersion Plot")
     plt.xlabel("Word Offset")
-
-
     plt.savefig('disp_plot')
-
     plt.show()
 
 
@@ -204,26 +201,10 @@ def main():
     plot_raw_data()
     text = preprocessing()
     cleared = get_cleared_text(text)
+    print(text)
     collocations(cleared)
     frequency_dist_dict(cleared)
     dispersion_plot_vanilla(text)
-    
-    
-   
-    
-    
-    
 
 if __name__ == "__main__":
     main()
-    
-    
-    
-#beispieldict = {"hans": 1, "hansel": 2,"hansäl": 3}
-    #keyList = list(beispieldict.keys())
-    #valueList = list(beispieldict.values())
-    #print(type(beispieldict.keys()))
-    #fig = go.Figure()
-    #fig.add_trace(go.Scatter(x=keyList, y=valueList, name='hahja'))
-    #st.plotly_chart(fig)
-    #st.write(beispieldict)
