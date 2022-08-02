@@ -11,8 +11,15 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 from nltk import FreqDist, WordNetLemmatizer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
+import matplotlib as plt 
 
-nltk.download('punkt')
+#nltk.download('wordnet')
+#nltk.download('omw-1.4')
+#nltk.download('vader_lexicon')
+#nltk.download('averaged_perceptron_tagger')
+#nltk.download("maxent_ne_chunker")
+#nltk.download("words")
+#nltk.download("Punkt")
 
 # https://github.com/luigibr1/Streamlit-StockSearchWebApp/blob/master/web_app_v3.py
 # https://share.streamlit.io/daniellewisdl/streamlit-cheat-sheet/app.py
@@ -77,6 +84,7 @@ def get_cleared_text(text):
 
 def dispersion_plot(nltk_text):
     nltk_text.dispersion_plot(["good", "bad", "buy", "sell"])
+    # schauen ob diese Funktion genau so gecallt werden kann in Streamlit 
 
 def filter_punctuation(nltk_text):
     text = [word.lower() for word in nltk_text if word.isalpha()]
@@ -99,6 +107,15 @@ def filter_stopwords(list_to_be_cleared):
 def frequency_dist(cleared_list):
     frequencydist = FreqDist(cleared_list)
     frequencydist.plot(20, cumulative=True)
+    #plt.ioff()
+    #plt.close()
+    #savedPicture = frequencydist.plot(20, cumulative=True)
+    plt.savefig("frequency_dist.png")
+    plt.show()
+    image = Image.open("frequency_dist.png")
+    st.image(image,caption='hallo')
+    
+    
 
 def collocations(cleared_list):
 
@@ -139,8 +156,19 @@ def main():
     text = preprocessing()
     cleared = get_cleared_text(text)
     collocations(cleared)
-    
     #st.write(get_cleared_text(text))
+    
+    
+    
+    
+    beispieldict = {"hans": 1, "hansel": 2,"hansäl": 3}
+    keyList = list(beispieldict.keys())
+    valueList = list(beispieldict.values())
+    #print(type(beispieldict.keys()))
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=keyList, y=valueList, name='hahja'))
+    st.plotly_chart(fig)
+    st.write(beispieldict)
     
 
 if __name__ == "__main__":
