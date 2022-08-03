@@ -34,12 +34,11 @@ def local_css(file_name):
 # Local CSS Sheet
 local_css("style.css")
 
-START = date.today() - relativedelta(days=7)
-TODAY = date.today().strftime("%Y-%m-%d")
-
 
 def load_data(ticker):
-    data = yf.download(ticker, START, TODAY)  # returns a panda dataframe
+    START = date.today() - relativedelta(days=10)
+    TODAY = date.today().strftime("%Y-%m-%d")
+    data = yf.download(ticker, START, TODAY)  
     data.reset_index(inplace=True)
     return data
 
