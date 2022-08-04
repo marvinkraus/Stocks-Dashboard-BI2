@@ -53,7 +53,7 @@ def plot_raw_data():
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Closing Price'))
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Opening Price'))
-    fig.layout.update(title_text="Stock History for Gamestop", xaxis_rangeslider_visible=True, width=1000, height=900)
+    fig.layout.update(title_text="Stock History for Gamestop", xaxis_rangeslider_visible=True, width=1100, height=900)
     fig.update_yaxes(dtick=0.3) # change size of the y-axis steps 
     
     st.plotly_chart(fig)
@@ -155,7 +155,7 @@ def frequency_dist_dict(cleared_list):
     valueList = list(final_dict.values())
     
     st.title("""**Frequency Analysis**""")
-    st.subheader("""**Dispersion Plot**""")
+    st.subheader("""**Frequency of words in the text**""")
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Frequency of occurring words '))
     st.plotly_chart(fig)
@@ -194,7 +194,7 @@ def sentiment_anaylsis(cleaned_list):
         #print("Neutral =  " + str(neu_avg))
         
         st.title(""" **Sentiment Analysis**""")
-        st.subheader('Sentiment analysis can help you determine the ratio of positive to negative engagements about a specific topic. You can analyze bodies of text, such as comments, tweets, and product reviews, to obtain insights from your audience.')
+        st.subheader('Sentiment analysis can help you determine the ratio of positive to negative engagements about a specific topic')
         st.write("Positive = " + str(pos_avg))
         st.write("Negative = " + str(neg_avg))
         st.write("Neutral =  " + str(neu_avg))
