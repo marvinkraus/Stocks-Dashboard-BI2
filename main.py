@@ -23,10 +23,6 @@ from nltk.draw import dispersion_plot
 #nltk.download("words")
 #nltk.download("Punkt")
 
-# https://github.com/luigibr1/Streamlit-StockSearchWebApp/blob/master/web_app_v3.py
-# https://share.streamlit.io/daniellewisdl/streamlit-cheat-sheet/app.py
-# https://www.ritchieng.com/pandas-multi-criteria-filtering/
-
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
@@ -94,7 +90,7 @@ def dispersion_plot_vanilla(nltk_text):
     plt.pause(1)
     plt.close()
     st.title("""**Dispersion Plot**""")
-    st.subheader("""**Dispersion Plot**""")
+    st.subheader("""**helpful to determine the location of a word in a sequence of text sentences.**""")
     st.image('dispersion_plot.png')
 
 
