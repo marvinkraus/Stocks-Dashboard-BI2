@@ -23,6 +23,8 @@ from nltk.draw import dispersion_plot
 #nltk.download("words")
 #nltk.download("Punkt")
 
+st.set_page_config(layout="wide")
+
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
@@ -56,7 +58,7 @@ def plot_raw_data():
     fig.layout.update(title_text="Stock History for Gamestop", xaxis_rangeslider_visible=True, width=1100, height=900)
     fig.update_yaxes(dtick=0.3) # change size of the y-axis steps 
     
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width = True)
 
 #______________________________________________________________________________________________________________________________________________________________________________________#
 # NLP Part
@@ -81,18 +83,28 @@ def get_cleared_text(text):
 
 
 def dispersion_plot_vanilla(nltk_text):
-    words = ["good", "bad", "buy", "sell"]
-    plt.ion()
-    dispersion_plot(nltk_text, words)
-    plt.ioff()
-    plt.savefig('dispersion_plot.png')
-    plt.show(block=False)
-    plt.pause(1)
-    plt.close()
     st.title("""**Dispersion Plot**""")
     st.subheader("""**helpful to determine the location of a word in a sequence of text sentences.**""")
-    st.image('dispersion_plot.png')
+    col1, col2, col3 = st.columns([1,1.5,1])
 
+    with col1:
+        st.write("")
+
+    with col2:
+        words = ["good", "bad", "buy", "sell"]
+        plt.ion()
+        dispersion_plot(nltk_text, words)
+        plt.ioff()
+        plt.savefig('dispersion_plot.png')
+        plt.show(block=False)
+        plt.pause(1)
+        plt.close()
+        st.image('dispersion_plot.png')
+
+
+    with col3:
+        st.write("")
+   
 
 
 def dispersion_plotting(nltk_text):
@@ -158,7 +170,9 @@ def frequency_dist_dict(cleared_list):
     st.subheader("""**Frequency of words in the text**""")
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Frequency of occurring words '))
-    st.plotly_chart(fig)
+    fig.layout.update(height=900)
+    st.plotly_chart(fig,use_container_width = True)
+    
 
     return final_dict   
     
@@ -194,11 +208,22 @@ def sentiment_anaylsis(cleaned_list):
         #print("Neutral =  " + str(neu_avg))
         
         st.title(""" **Sentiment Analysis**""")
-        st.subheader('Sentiment analysis can help you determine the ratio of positive to negative engagements about a specific topic')
-        st.write("Positive = " + str(pos_avg))
-        st.write("Negative = " + str(neg_avg))
-        st.write("Neutral =  " + str(neu_avg))
+        st.text("""--> Sentiment analysis can help you determine the ratio of positive to \nnegative engagements about a specific topic""")
+        #st.write("Positive = " + str(pos_avg))
+        #st.write("Negative = " + str(neg_avg))
+        #st.write("Neutral =  " + str(neu_avg))
 
+        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+        labels = 'Positive', 'Negative', 'Neutral'
+        sizes = [pos_avg,neg_avg,neu_avg]
+        explode = (0, 0, 0.2)  # only "explode" the 2nd slice (i.e. 'Hogs')
+
+        fig1, ax1 = plt.subplots()
+        ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',shadow=True, startangle=90)
+        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+        st.pyplot(fig1)
+    
         if(pos_avg > neg_avg >neu_avg):
             st.write("Overall Sentiment is positive")
         elif(neg_avg> pos_avg > neg_avg):
