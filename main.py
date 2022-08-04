@@ -93,6 +93,8 @@ def dispersion_plot_vanilla(nltk_text):
     plt.show(block=False)
     plt.pause(1)
     plt.close()
+    st.title("""**Dispersion Plot**""")
+    st.subheader("""**Dispersion Plot**""")
     st.image('dispersion_plot.png')
 
 
@@ -156,9 +158,10 @@ def frequency_dist_dict(cleared_list):
     keyList = list(final_dict.keys())
     valueList = list(final_dict.values())
     
-    
+    st.title("""**Frequency Analysis**""")
+    st.subheader("""**Dispersion Plot**""")
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Test'))
+    fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Frequency of occurring words '))
     st.plotly_chart(fig)
 
     return final_dict   
@@ -190,10 +193,25 @@ def sentiment_anaylsis(cleaned_list):
         pos_avg = pos / number
         neg_avg = neg / number
         neu_avg = neu/number
-        print("Positive = " + str(pos_avg))
-        print("Negative = " + str(neg_avg))
-        print("Neutral =  " + str(neu_avg))
+        #print("Positive = " + str(pos_avg))
+        #print("Negative = " + str(neg_avg))
+        #print("Neutral =  " + str(neu_avg))
+        
+        st.title(""" **Sentiment Analysis**""")
+        st.subheader('Sentiment analysis can help you determine the ratio of positive to negative engagements about a specific topic. You can analyze bodies of text, such as comments, tweets, and product reviews, to obtain insights from your audience.')
+        st.write("Positive = " + str(pos_avg))
+        st.write("Negative = " + str(neg_avg))
+        st.write("Neutral =  " + str(neu_avg))
 
+        if(pos_avg > neg_avg >neu_avg):
+            st.write("Overall Sentiment is positive")
+        elif(neg_avg> pos_avg > neg_avg):
+            st.write("Overall Sentiment is negative")
+        elif(neu_avg > neg_avg > pos_avg):
+            st.write("Overall Sentiment is neutral")
+        else:
+            st.write("No overall sentiment available")
+            
 
 #______________________________________________________________________________________________________________________________________________________________________________________#
 
@@ -202,10 +220,10 @@ def main():
     plot_raw_data()
     text = preprocessing()
     cleared = get_cleared_text(text)
-    print(text)
     collocations(cleared)
     frequency_dist_dict(cleared)
     dispersion_plot_vanilla(text)
+    sentiment_anaylsis(cleared)
 
 if __name__ == "__main__":
     main()
