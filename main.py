@@ -2,7 +2,7 @@ import yfinance as yf
 import streamlit as st
 from dateutil.relativedelta import relativedelta
 from datetime import date
-from plotly import graph_objs as go  # for interactive graphs
+from plotly import graph_objs as go 
 import pandas as pd
 import nltk
 from nltk import ngrams 
@@ -14,6 +14,7 @@ from nltk.corpus import stopwords
 import matplotlib.pyplot as plt 
 import numpy
 from nltk.draw import dispersion_plot
+from wordcloud import WordCloud
 
 #nltk.download('wordnet')
 #nltk.download('omw-1.4')
@@ -24,6 +25,7 @@ from nltk.draw import dispersion_plot
 #nltk.download("Punkt")
 
 st.set_page_config(layout="wide")
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 def local_css(file_name):
     with open(file_name) as f:
@@ -183,8 +185,20 @@ def collocations(cleared_list):
     lemmatized_words = [lemmatizer.lemmatize(word) for word in cleared_list]
     new_text = nltk.Text(lemmatized_words)
     new_text.collocations()
+    
+    print(type(new_text))
 
+    # Create some sample text
+    text = 'Fun, fun, awesome, awesome, tubular, astounding, superb, great, amazing, amazing, amazing, amazing'
 
+    # Create and generate a word cloud image:
+    wordcloud = WordCloud().generate(text)
+
+    # Display the generated image:
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis("off")
+    plt.show()
+    st.pyplot(width=400)
 
 def sentiment_anaylsis(cleaned_list):
     sia = SentimentIntensityAnalyzer()
@@ -207,16 +221,12 @@ def sentiment_anaylsis(cleaned_list):
         #print("Negative = " + str(neg_avg))
         #print("Neutral =  " + str(neu_avg))
         
-        st.title(""" **Sentiment Analysis**""")
-        st.text("""--> Sentiment analysis can help you determine the ratio of positive to \nnegative engagements about a specific topic""")
-        #st.write("Positive = " + str(pos_avg))
-        #st.write("Negative = " + str(neg_avg))
-        #st.write("Neutral =  " + str(neu_avg))
-
-        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+        st.title("""**Sentiment Analysis**""")
+        st.text("""Sentiment analysis can help you determine the ratio of positive to \nnegative engagements about a specific topic""")
+       
         labels = 'Positive', 'Negative', 'Neutral'
         sizes = [pos_avg,neg_avg,neu_avg]
-        explode = (0, 0, 0.2)  # only "explode" the 2nd slice (i.e. 'Hogs')
+        explode = (0, 0, 0.2)  
 
         fig1, ax1 = plt.subplots()
         ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',shadow=True, startangle=90)
@@ -224,6 +234,8 @@ def sentiment_anaylsis(cleaned_list):
 
         st.pyplot(fig1)
     
+        #Vergleich der Floats noch machen
+        # zu int casten und nur die ersten 3 nachkommastellen betrachten und dann vergleichen 
         if(pos_avg > neg_avg >neu_avg):
             st.write("Overall Sentiment is positive")
         elif(neg_avg> pos_avg > neg_avg):
