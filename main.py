@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import numpy
 from nltk.draw import dispersion_plot
 from wordcloud import WordCloud
+from nltk.corpus.reader import wordnet
 
 #nltk.download('wordnet')
 #nltk.download('omw-1.4')
@@ -80,6 +81,7 @@ def preprocessing():
 def get_cleared_text(text):
     cleared = filter_punctuation(text)
     cleared = filter_stopwords(cleared)
+    cleared = lemmantize_text(cleared)
 
     return cleared
 
@@ -102,6 +104,7 @@ def dispersion_plot_vanilla(nltk_text):
         plt.pause(1)
         plt.close()
         st.image('dispersion_plot.png')
+        
 
 
     with col3:
@@ -174,10 +177,28 @@ def frequency_dist_dict(cleared_list):
     fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Frequency of occurring words '))
     fig.layout.update(height=900)
     st.plotly_chart(fig,use_container_width = True)
-    
+    # hier eine Wordcloud erstellen --> ausprobieren 
 
     return final_dict   
-    
+   
+def show_wordcloud(cleared):
+    #f = open('wallstreetbet.txt', 'r', encoding='utf8')
+    #raw = f.read()
+    data = " ".join(cleared)
+    wordcloud = WordCloud(
+        background_color='black',
+        max_words=50,
+        max_font_size=40, 
+        scale=3,
+        random_state=1 # chosen at random by flipping a coin; it was heads
+    ).generate(str(data))
+    fig = plt.figure(1, figsize=(12, 12))
+    plt.axis('off')
+    plt.imshow(wordcloud)
+    plt.show() 
+    st.title('Frequency Analysis')
+    st.subheader('Shows the frequency of the occuring words')
+    st.pyplot()
 
 def collocations(cleared_list):
 
@@ -185,20 +206,6 @@ def collocations(cleared_list):
     lemmatized_words = [lemmatizer.lemmatize(word) for word in cleared_list]
     new_text = nltk.Text(lemmatized_words)
     new_text.collocations()
-    
-    print(type(new_text))
-
-    # Create some sample text
-    text = 'Fun, fun, awesome, awesome, tubular, astounding, superb, great, amazing, amazing, amazing, amazing'
-
-    # Create and generate a word cloud image:
-    wordcloud = WordCloud().generate(text)
-
-    # Display the generated image:
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis("off")
-    plt.show()
-    st.pyplot(width=400)
 
 def sentiment_anaylsis(cleaned_list):
     sia = SentimentIntensityAnalyzer()
@@ -233,18 +240,33 @@ def sentiment_anaylsis(cleaned_list):
         ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
         st.pyplot(fig1)
-    
-        #Vergleich der Floats noch machen
-        # zu int casten und nur die ersten 3 nachkommastellen betrachten und dann vergleichen 
-        if(pos_avg > neg_avg >neu_avg):
-            st.write("Overall Sentiment is positive")
-        elif(neg_avg> pos_avg > neg_avg):
-            st.write("Overall Sentiment is negative")
-        elif(neu_avg > neg_avg > pos_avg):
-            st.write("Overall Sentiment is neutral")
+
+#maps nltk Part of Speech tags to wordnet tags
+def get_wordnet_pos(treebank_tag):
+    if treebank_tag.startswith('J'):
+        return wordnet.ADJ
+    elif treebank_tag.startswith('V'):
+        return wordnet.VERB
+    elif treebank_tag.startswith('N'):
+        return wordnet.NOUN
+    elif treebank_tag.startswith('R'):
+        return wordnet.ADV
+    else:
+        return None
+
+
+#lemmantizes a text
+def lemmantize_text(cleared_list):
+
+    cl = []
+    tags = nltk.pos_tag(cleared_list)
+    lemmatizer = WordNetLemmatizer()
+    for word, pos in tags:
+        if(get_wordnet_pos(pos) is not None):
+            cl.append(lemmatizer.lemmatize(word, get_wordnet_pos(pos)))
         else:
-            st.write("No overall sentiment available")
-            
+            cl.append(word)
+    return cl     
 
 #______________________________________________________________________________________________________________________________________________________________________________________#
 
@@ -253,10 +275,12 @@ def main():
     plot_raw_data()
     text = preprocessing()
     cleared = get_cleared_text(text)
-    collocations(cleared)
-    frequency_dist_dict(cleared)
     dispersion_plot_vanilla(text)
+    collocations(cleared)
+    show_wordcloud(cleared)
     sentiment_anaylsis(cleared)
+    
+    
 
 if __name__ == "__main__":
     main()
