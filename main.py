@@ -69,7 +69,7 @@ def preprocessing():
 
 
     #open text file you want to analyze
-    f = open('wallstreetbet.txt', 'r', encoding='utf8')
+    f = open('wallstreetbet.txt', 'r', encoding='utf8') # tesla.txt und die ganzen Analysen machen für das dashboard und dann in kapitel in 9 die ergebnisse einfügen 
     raw = f.read()
 
     #tokenize by words and make into nltk text
