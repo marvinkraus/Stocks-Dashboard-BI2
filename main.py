@@ -46,7 +46,7 @@ def load_data(ticker):
 
 # Global variables
 st.title("Stock Web-App")
-data = load_data('GME')
+data = load_data('TSLA')
 #file = open('wallstreetbet.txt')
 #wallstreetbets_data = file.read(encoding='uft-8')
 
@@ -54,12 +54,12 @@ def main():
     pass
 
 def plot_raw_data():
-    st.subheader("""Daily **opening and closing price** for  Gamestop """)
+    st.subheader("""Daily **opening and closing price** for  Tesla """)
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Closing Price'))
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Opening Price'))
-    fig.layout.update(title_text="Stock History for Gamestop", xaxis_rangeslider_visible=True, width=1100, height=900)
-    fig.update_yaxes(dtick=0.3) # change size of the y-axis steps 
+    fig.layout.update( xaxis_rangeslider_visible=True, width=1200, height=900)
+    fig.update_yaxes(dtick=5) # change size of the y-axis steps 
     
     st.plotly_chart(fig,use_container_width = True)
 
