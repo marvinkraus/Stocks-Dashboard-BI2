@@ -175,7 +175,12 @@ def frequency_dist_dict(cleared_list):
     st.subheader("""**Frequency of words in the text**""")
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Frequency of occurring words '))
-    fig.layout.update(height=900)
+    fig.layout.update(height=900,font=dict(
+        family="Helvetica",
+        size=17,
+        color="black")
+    )
+    fig.update_xaxes(tickangle=55)
     st.plotly_chart(fig,use_container_width = True)
     # hier eine Wordcloud erstellen --> ausprobieren 
 
@@ -276,6 +281,7 @@ def main():
     text = preprocessing()
     cleared = get_cleared_text(text)
     dispersion_plot_vanilla(text)
+    frequency_dist_dict(cleared)
     collocations(cleared)
     show_wordcloud(cleared)
     sentiment_anaylsis(cleared)
