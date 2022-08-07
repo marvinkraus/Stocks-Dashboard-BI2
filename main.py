@@ -62,7 +62,8 @@ def plot_raw_data():
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Opening Price'))
     fig.layout.update( xaxis_rangeslider_visible=True, width=1200, height=900)
     fig.update_yaxes(dtick=5) # change size of the y-axis steps 
-    fig.update_layout(paper_bgcolor="white")
+    #fig.update_layout(paper_bgcolor="white")
+    fig.patch.set_facecolor('xkcd:mint green')
     st.plotly_chart(fig,use_container_width = True)
 
 #______________________________________________________________________________________________________________________________________________________________________________________#
@@ -71,7 +72,7 @@ def preprocessing():
 
 
     #open text file you want to analyze
-    f = open('wallstreetbet.txt', 'r', encoding='utf8') # tesla.txt und die ganzen Analysen machen für das dashboard und dann in kapitel in 9 die ergebnisse einfügen 
+    f = open('tesla_allfinance_50k.txt', 'r', encoding='utf8') # tesla.txt und die ganzen Analysen machen für das dashboard und dann in kapitel in 9 die ergebnisse einfügen 
     raw = f.read()
 
     #tokenize by words and make into nltk text
