@@ -25,15 +25,17 @@ from nltk.corpus.reader import wordnet
 #nltk.download("words")
 #nltk.download("Punkt")
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide",page_title='STOCK WEB APP', page_icon='🤑')
 st.set_option('deprecation.showPyplotGlobalUse', False)
+
 
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 # Local CSS Sheet
-local_css("style.css")
+#local_css("style.css")
+padding = 200
 
 
 def load_data(ticker):
@@ -45,7 +47,7 @@ def load_data(ticker):
 
 
 # Global variables
-st.title("Stock Web-App")
+st.title(" 🤑 Stock Web-App 🤑")
 data = load_data('TSLA')
 #file = open('wallstreetbet.txt')
 #wallstreetbets_data = file.read(encoding='uft-8')
@@ -60,7 +62,7 @@ def plot_raw_data():
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Opening Price'))
     fig.layout.update( xaxis_rangeslider_visible=True, width=1200, height=900)
     fig.update_yaxes(dtick=5) # change size of the y-axis steps 
-    
+    fig.update_layout(paper_bgcolor="white")
     st.plotly_chart(fig,use_container_width = True)
 
 #______________________________________________________________________________________________________________________________________________________________________________________#
