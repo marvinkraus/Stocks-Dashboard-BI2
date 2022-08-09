@@ -79,7 +79,7 @@ def plot_raw_data():
 
 def preprocessing():
     #open text file you want to analyze
-    f = open('tesla_allfinance_50k.txt', 'r', encoding='utf8') # tesla.txt und die ganzen Analysen machen für das dashboard und dann in kapitel in 9 die ergebnisse einfügen 
+    f = open('tesla_news.txt', 'r', encoding='utf8') # tesla.txt und die ganzen Analysen machen für das dashboard und dann in kapitel in 9 die ergebnisse einfügen 
     raw = f.read()
 
     #tokenize by words and make into nltk text
@@ -98,8 +98,8 @@ def get_cleared_text(text):
 
 
 def dispersion_plot_vanilla(nltk_text):
-    st.title("""**Dispersion Plot**""")
-    st.subheader("""**helpful to determine the location of a word in a sequence of text sentences.**""")
+    st.subheader("""**Dispersion Plot**""")
+    st.text("helpful to determine the location of a word in a sequence of text sentences.")
     col1, col2, col3 = st.columns([1,1.5,1])
 
     with col1:
@@ -183,8 +183,8 @@ def frequency_dist_dict(cleared_list):
     keyList = list(final_dict.keys())
     valueList = list(final_dict.values())
     
-    st.title("""**Frequency Analysis**""")
-    st.subheader("""**Frequency of words in the text**""")
+    st.subheader("""**Frequency Analysis**""")
+    st.text("""**Frequency of words in the text**""")
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Frequency of occurring words '))
     fig.layout.update(height=900,font=dict(
@@ -214,9 +214,11 @@ def show_wordcloud(cleared):
     plt.axis('off')
     plt.imshow(wordcloud)
     plt.show() 
-    st.title('Frequency Analysis')
-    st.subheader('Shows the frequency of the occuring words')
+    st.subheader('Frequency Analysis')
+    st.text('Shows the frequency of the occuring words')
     st.pyplot()
+    plt.savefig('wordcloud.png',
+            dpi = 300)
 
 
 def collocations(cleared_list):
@@ -248,15 +250,15 @@ def sentiment_anaylsis(cleaned_list):
         #print("Negative = " + str(neg_avg))
         #print("Neutral =  " + str(neu_avg))
         
-        st.title("""**Sentiment Analysis**""")
-        st.subheader("""Sentiment analysis can help you determine the ratio of positive to \nnegative engagements about a specific topic""")
+        st.subheader("""**Sentiment Analysis**""")
+        st.text("""Sentiment analysis can help you determine the ratio of positive to \nnegative engagements about a specific topic""")
        
         labels = 'Positive', 'Negative', 'Neutral'
         sizes = [pos_avg,neg_avg,neu_avg]
         explode = (0, 0, 0.2)  
 
         fig1, ax1 = plt.subplots()
-        ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',shadow=True, startangle=90)
+        ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.0f%%',shadow=True, startangle=90)
         ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
         st.pyplot(fig1)
@@ -295,6 +297,7 @@ def main():
     plot_raw_data()
     text = preprocessing()
     cleared = get_cleared_text(text)
+    frequency_dist_dict(cleared)
     dispersion_plot_vanilla(text)
     collocations(cleared)
     show_wordcloud(cleared)
