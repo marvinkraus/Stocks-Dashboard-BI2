@@ -249,7 +249,7 @@ def sentiment_anaylsis(cleaned_list):
         #print("Neutral =  " + str(neu_avg))
         
         st.title("""**Sentiment Analysis**""")
-        st.text("""Sentiment analysis can help you determine the ratio of positive to \nnegative engagements about a specific topic""")
+        st.subheader("""Sentiment analysis can help you determine the ratio of positive to \nnegative engagements about a specific topic""")
        
         labels = 'Positive', 'Negative', 'Neutral'
         sizes = [pos_avg,neg_avg,neu_avg]
@@ -293,11 +293,9 @@ def lemmantize_text(cleared_list):
 
 def main():
     plot_raw_data()
-    st.header('Current atmosphere for the stock Tesla')
     text = preprocessing()
     cleared = get_cleared_text(text)
     dispersion_plot_vanilla(text)
-    frequency_dist_dict(cleared)
     collocations(cleared)
     show_wordcloud(cleared)
     sentiment_anaylsis(cleared)
