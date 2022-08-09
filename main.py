@@ -64,13 +64,14 @@ def plot_raw_data():
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Closing Price'))
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Opening Price'))
-    fig.layout.update(xaxis_rangeslider_visible=True, width=1200, height=900,plot_bgcolor = '#fafafb', paper_bgcolor ='#fafafb')
+    fig.layout.update(xaxis_rangeslider_visible=True, width=1200, height=900,plot_bgcolor = '#484d6d', paper_bgcolor ='#282A36')
     fig.update_yaxes(dtick=5) # change size of the y-axis steps 
-    fig.update_xaxes(showline=True, linewidth=1, linecolor='black', gridcolor='black')
-    fig.update_yaxes(showline=True, linewidth=1, linecolor='black', gridcolor='black')
-    fig.layout.xaxis.color = 'black'
-    fig.layout.yaxis.color = 'black'
-    fig.update_layout(legend_font_color="black")
+    fig.update_xaxes(showline=True, linewidth=3, linecolor='white', gridcolor='white')
+    fig.update_yaxes(showline=True, linewidth=3, linecolor='white', gridcolor='white')
+    fig.layout.xaxis.color = 'white'
+    fig.layout.yaxis.color = 'white'
+    fig.update_layout(legend_font_color="white")
+    fig.update_traces(line_width=3)
     #fig.update_layout(paper_bgcolor="white")
     st.plotly_chart(fig,use_container_width = True)
 
@@ -200,6 +201,7 @@ def frequency_dist_dict(cleared_list):
     fig.update_yaxes(showline=True, linewidth=1, linecolor='black', gridcolor='black')
     fig.layout.xaxis.color = 'black'
     fig.layout.yaxis.color = 'black'
+    fig.update_layout(legend_font_color="white")
     fig.update_xaxes(tickangle=55)
 
     st.plotly_chart(fig,use_container_width = True)
