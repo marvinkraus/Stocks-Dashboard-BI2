@@ -58,7 +58,7 @@ data = load_data('TSLA')
 def main():
     pass
 
-@st.cache(suppress_st_warning=True)
+
 def plot_raw_data():
     st.subheader("""Daily **opening and closing price** for  Tesla """)
     fig = go.Figure()
@@ -98,8 +98,7 @@ def get_cleared_text(text):
 
 
 def dispersion_plot_vanilla(nltk_text):
-    st.subheader("""**Dispersion Plot**""")
-    st.text("helpful to determine the location of a word in a sequence of text sentences.")
+    st.subheader("Dispersion Plot")
     col1, col2, col3 = st.columns([1,1.5,1])
 
     with col1:
@@ -115,6 +114,9 @@ def dispersion_plot_vanilla(nltk_text):
         plt.pause(1)
         plt.close()
         st.image('dispersion_plot.png')
+        st.title('')
+        st.title('')
+        st.title('')
         
 
 
@@ -144,8 +146,10 @@ def dispersion_plotting(nltk_text):
     plt.ylim(-1, len(words))
     plt.title("Lexical Dispersion Plot")
     plt.xlabel("Word Offset")
-    plt.savefig('disp_plot')
     plt.show()
+    st.title('')
+    st.title('')
+    st.title('')
 
 
 def filter_punctuation(nltk_text):
@@ -183,17 +187,25 @@ def frequency_dist_dict(cleared_list):
     keyList = list(final_dict.keys())
     valueList = list(final_dict.values())
     
-    st.subheader("""**Frequency Analysis**""")
-    st.text("""**Frequency of words in the text**""")
+    st.subheader("Frequency Analysis")
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Frequency of occurring words '))
     fig.layout.update(height=900,font=dict(
         family="Helvetica",
         size=17,
-        color="black")
+        color="black",)
     )
+    fig.layout.update(plot_bgcolor = '#fafafb', paper_bgcolor ='#fafafb')
+    fig.update_xaxes(showline=True, linewidth=1, linecolor='black', gridcolor='black')
+    fig.update_yaxes(showline=True, linewidth=1, linecolor='black', gridcolor='black')
+    fig.layout.xaxis.color = 'black'
+    fig.layout.yaxis.color = 'black'
     fig.update_xaxes(tickangle=55)
+
     st.plotly_chart(fig,use_container_width = True)
+    st.title('')
+    st.title('')
+    st.title('')
     # hier eine Wordcloud erstellen --> ausprobieren 
 
     return final_dict   
@@ -214,11 +226,13 @@ def show_wordcloud(cleared):
     plt.axis('off')
     plt.imshow(wordcloud)
     plt.show() 
-    st.subheader('Frequency Analysis')
-    st.text('Shows the frequency of the occuring words')
+    st.subheader('Frequency Analysis - Wordcloud')
     st.pyplot()
     plt.savefig('wordcloud.png',
             dpi = 300)
+    st.title('')
+    st.title('')
+    st.title('')
 
 
 def collocations(cleared_list):
@@ -250,9 +264,7 @@ def sentiment_anaylsis(cleaned_list):
         #print("Negative = " + str(neg_avg))
         #print("Neutral =  " + str(neu_avg))
         
-        st.subheader("""**Sentiment Analysis**""")
-        st.text("""Sentiment analysis can help you determine the ratio of positive to \nnegative engagements about a specific topic""")
-       
+        st.subheader('Sentiment Analysis')
         labels = 'Positive', 'Negative', 'Neutral'
         sizes = [pos_avg,neg_avg,neu_avg]
         explode = (0, 0, 0.2)  
@@ -297,10 +309,13 @@ def main():
     plot_raw_data()
     text = preprocessing()
     cleared = get_cleared_text(text)
+    webTitle_NLP =  '<h2 style="text-align: center;"><span style="color: #ffffff;"><strong>Overall sentiment in reddit based on comments in the last day</strong></span></h2>'
+    st.markdown(webTitle_NLP, unsafe_allow_html=True)
+    st.title('')
     frequency_dist_dict(cleared)
     dispersion_plot_vanilla(text)
-    collocations(cleared)
     show_wordcloud(cleared)
+    #collocations(cleared)
     sentiment_anaylsis(cleared)
     
     
