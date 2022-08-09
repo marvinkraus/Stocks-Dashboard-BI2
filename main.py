@@ -29,15 +29,16 @@ st.set_page_config(layout="wide",page_title='STOCK WEB APP', page_icon='🤑')
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 
+
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 # Local CSS Sheet
-#local_css("style.css")
+local_css("style.css")
 padding = 200
 
-
+@st.cache(suppress_st_warning=True)
 def load_data(ticker):
     START = date.today() - relativedelta(days=10)
     TODAY = date.today().strftime("%Y-%m-%d")
@@ -47,7 +48,9 @@ def load_data(ticker):
 
 
 # Global variables
-st.title(" 🤑 Stock Web-App 🤑")
+#webApp_title = '<p style="font-family:helvetica; color:white; font-size: 80px;"> <center>🤑 Stock Web-App 🤑</center></p>'
+webApp_title =  '<h1 style="text-align: center;"><span style="color: #ffffff;"><strong>🤑 Stock Web-App 🤑</strong></span></h1>'
+st.markdown(webApp_title, unsafe_allow_html=True)
 data = load_data('TSLA')
 #file = open('wallstreetbet.txt')
 #wallstreetbets_data = file.read(encoding='uft-8')
@@ -55,22 +58,26 @@ data = load_data('TSLA')
 def main():
     pass
 
+@st.cache(suppress_st_warning=True)
 def plot_raw_data():
     st.subheader("""Daily **opening and closing price** for  Tesla """)
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Closing Price'))
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Opening Price'))
-    fig.layout.update( xaxis_rangeslider_visible=True, width=1200, height=900)
+    fig.layout.update(xaxis_rangeslider_visible=True, width=1200, height=900,plot_bgcolor = '#fafafb', paper_bgcolor ='#fafafb')
     fig.update_yaxes(dtick=5) # change size of the y-axis steps 
+    fig.update_xaxes(showline=True, linewidth=1, linecolor='black', gridcolor='black')
+    fig.update_yaxes(showline=True, linewidth=1, linecolor='black', gridcolor='black')
+    fig.layout.xaxis.color = 'black'
+    fig.layout.yaxis.color = 'black'
+    fig.update_layout(legend_font_color="black")
     #fig.update_layout(paper_bgcolor="white")
-    fig.patch.set_facecolor('xkcd:mint green')
     st.plotly_chart(fig,use_container_width = True)
 
 #______________________________________________________________________________________________________________________________________________________________________________________#
 # NLP Part
+
 def preprocessing():
-
-
     #open text file you want to analyze
     f = open('tesla_allfinance_50k.txt', 'r', encoding='utf8') # tesla.txt und die ganzen Analysen machen für das dashboard und dann in kapitel in 9 die ergebnisse einfügen 
     raw = f.read()
@@ -80,6 +87,7 @@ def preprocessing():
     text = nltk.Text(tokens)
 
     return text
+
 
 def get_cleared_text(text):
     cleared = filter_punctuation(text)
@@ -144,6 +152,7 @@ def filter_punctuation(nltk_text):
     text = [word.lower() for word in nltk_text if word.isalpha()]
     return text
 
+
 def filter_stopwords(list_to_be_cleared):
     stop_words = set(stopwords.words("english"))
 
@@ -188,7 +197,8 @@ def frequency_dist_dict(cleared_list):
     # hier eine Wordcloud erstellen --> ausprobieren 
 
     return final_dict   
-   
+ 
+
 def show_wordcloud(cleared):
     #f = open('wallstreetbet.txt', 'r', encoding='utf8')
     #raw = f.read()
@@ -208,12 +218,14 @@ def show_wordcloud(cleared):
     st.subheader('Shows the frequency of the occuring words')
     st.pyplot()
 
+
 def collocations(cleared_list):
 
     lemmatizer = WordNetLemmatizer()
     lemmatized_words = [lemmatizer.lemmatize(word) for word in cleared_list]
     new_text = nltk.Text(lemmatized_words)
     new_text.collocations()
+
 
 def sentiment_anaylsis(cleaned_list):
     sia = SentimentIntensityAnalyzer()
@@ -249,6 +261,7 @@ def sentiment_anaylsis(cleaned_list):
 
         st.pyplot(fig1)
 
+
 #maps nltk Part of Speech tags to wordnet tags
 def get_wordnet_pos(treebank_tag):
     if treebank_tag.startswith('J'):
@@ -278,9 +291,9 @@ def lemmantize_text(cleared_list):
 
 #______________________________________________________________________________________________________________________________________________________________________________________#
 
-
 def main():
     plot_raw_data()
+    st.header('Current atmosphere for the stock Tesla')
     text = preprocessing()
     cleared = get_cleared_text(text)
     dispersion_plot_vanilla(text)

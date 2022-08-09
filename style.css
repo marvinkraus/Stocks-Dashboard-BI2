@@ -1,16 +1,6 @@
-body {
-    color: #ff0000;
-    background-color: rgb(21, 24, 211);
+h1 {
+    font-weight: bold;
+    color: #ffff;
+    font-size: 80px;
+  }
 
-}
-
-.stButton>button {
-    color: #ff0000;
-    border-radius: 50%;
-    height: 3em;
-    width: 3em;
-}
-
-.stTextInput>div>div>input {
-    color: #ff0000;
-}
