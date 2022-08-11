@@ -18,14 +18,14 @@ from wordcloud import WordCloud
 from nltk.corpus.reader import wordnet
 
 #nltk.download('wordnet')
-#nltk.download('omw-1.4')
+#nltk.download('omxw-1.4')
 #nltk.download('vader_lexicon')
 #nltk.download('averaged_perceptron_tagger')
 #nltk.download("maxent_ne_chunker")
 #nltk.download("words")
 #nltk.download("Punkt")
 
-st.set_page_config(layout="wide",page_title='STOCK WEB APP', page_icon='🤑')
+st.set_page_config(layout="wide",page_title='STOCK WEB APP', page_icon='💎👐')
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 
@@ -49,7 +49,7 @@ def load_data(ticker):
 
 # Global variables
 #webApp_title = '<p style="font-family:helvetica; color:white; font-size: 80px;"> <center>🤑 Stock Web-App 🤑</center></p>'
-webApp_title =  '<h1 style="text-align: center;"><span style="color: #ffffff;"><strong>🤑 Stock Web-App 🤑</strong></span></h1>'
+webApp_title =  '<h1 style="text-align: center;"><span style="color: #ffffff;"><strong>💎👐Stock Web-App💎👐</strong></span></h1>'
 st.markdown(webApp_title, unsafe_allow_html=True)
 data = load_data('TSLA')
 #file = open('wallstreetbet.txt')
@@ -272,7 +272,7 @@ def sentiment_anaylsis(cleaned_list):
         explode = (0, 0, 0.2)  
 
         fig1, ax1 = plt.subplots()
-        ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.0f%%',shadow=True, startangle=90)
+        ax1.pie(sizes, labels=labels, autopct='%1.0f%%',shadow=True, startangle=90)
         ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
         st.pyplot(fig1)
