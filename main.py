@@ -49,8 +49,6 @@ def load_data(ticker):
 
 # Global variables
 #webApp_title = '<p style="font-family:helvetica; color:white; font-size: 80px;"> <center>🤑 Stock Web-App 🤑</center></p>'
-webApp_title =  '<h1 style="text-align: center;"><span style="color: #ffffff;"><strong>💎👐Stock Web-App💎👐</strong></span></h1>'
-st.markdown(webApp_title, unsafe_allow_html=True)
 data = load_data('TSLA')
 #file = open('wallstreetbet.txt')
 #wallstreetbets_data = file.read(encoding='uft-8')
@@ -196,11 +194,11 @@ def frequency_dist_dict(cleared_list):
         size=17,
         color="black",)
     )
-    fig.layout.update(plot_bgcolor = '#fafafb', paper_bgcolor ='#fafafb')
+    fig.layout.update(plot_bgcolor = '#fafafb', paper_bgcolor ='#282A36')
     fig.update_xaxes(showline=True, linewidth=1, linecolor='black', gridcolor='black')
     fig.update_yaxes(showline=True, linewidth=1, linecolor='black', gridcolor='black')
-    fig.layout.xaxis.color = 'black'
-    fig.layout.yaxis.color = 'black'
+    fig.layout.xaxis.color = 'white'
+    fig.layout.yaxis.color = 'white'
     fig.update_layout(legend_font_color="white")
     fig.update_xaxes(tickangle=55)
 
@@ -208,21 +206,18 @@ def frequency_dist_dict(cleared_list):
     st.title('')
     st.title('')
     st.title('')
-    # hier eine Wordcloud erstellen --> ausprobieren 
 
     return final_dict   
  
 
 def show_wordcloud(cleared):
-    #f = open('wallstreetbet.txt', 'r', encoding='utf8')
-    #raw = f.read()
     data = " ".join(cleared)
     wordcloud = WordCloud(
         background_color='black',
         max_words=50,
         max_font_size=40, 
         scale=3,
-        random_state=1 # chosen at random by flipping a coin; it was heads
+        random_state=1
     ).generate(str(data))
     fig = plt.figure(1, figsize=(12, 12))
     plt.axis('off')
@@ -308,6 +303,31 @@ def lemmantize_text(cleared_list):
 #______________________________________________________________________________________________________________________________________________________________________________________#
 
 def main():
+    title_slide_presentation = '<h1 style="text-align: center;">Vorstellung Ergebnisse</h1><h4 style="text-align: center;">Business Intelligence 2</h4><h4 style="text-align: center;">Sommersemester 2022</h4><h4 style="text-align: center;">Elias Traub, Marvin Kraus und Tom Werner</h4><h4>&nbsp;</h4><h4>&nbsp;</h4><h4>&nbsp;</h4><h4>&nbsp;</h4><h4>&nbsp;</h4><h4>&nbsp;</h4><h4>&nbsp;</h4><h4>&nbsp;</h4><h4>&nbsp;</h4><h4>&nbsp'
+    st.markdown(title_slide_presentation, unsafe_allow_html=True)
+    st.title('')
+    st.title('')
+    ##############
+    einstieg_slide_presentation = '<h2 style="text-align: center;">Unsere Motivation</h2><ul><li style="list-style-type: none;"><ul><li><h4>Entscheidungshilfe f&uuml;r Investoren in Form eines Dashboards</h4></li><li><h4>Stimmungslage in den sozialen Medien auffassen</h4></li><li><h4>Unsere Idee: NLP von Redditkommentaren und Nachrichten zu Aktien</h4></li><li><h4>ML Algorithmus der &auml;hnliche Posts produzieren soll</h4></li></ul></li></ul><h4>&nbsp;</h4>'    
+    st.markdown(einstieg_slide_presentation, unsafe_allow_html=True)
+    ##############
+    col1, col2, col3 = st.columns([1,1.5,1])
+    with col1:
+        st.write("")
+    with col2:
+        st.image('unknown.png')
+    with col3:
+        st.write("")
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    ############
+    webApp_title =  '<h1 style="text-align: center;"><span style="color: #ffffff;"><strong>💎👐Stock Web-App💎👐</strong></span></h1>'
+    st.markdown(webApp_title, unsafe_allow_html=True)
+    ###########
     plot_raw_data()
     text = preprocessing()
     cleared = get_cleared_text(text)
@@ -317,9 +337,25 @@ def main():
     frequency_dist_dict(cleared)
     dispersion_plot_vanilla(text)
     show_wordcloud(cleared)
-    #collocations(cleared)
     sentiment_anaylsis(cleared)
-    
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    ergebnis_ml_slide_presentation = '<h2 style="text-align: center;">Ergebnis Textgenerierung</h2>'
+    st.markdown(ergebnis_ml_slide_presentation,unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([1,1.5,1])
+    with col1:
+        st.write("")
+    with col2:
+        st.image('TeslaBot.png')
+    with col3:
+        st.write("")
+    ###########
+    fazit_slide_presentation = '<h2 style="text-align: center;">Fazit</h2><ul><li style="list-style-type: none;"><ul><li><h4>NLP : sehr geeignet um gro&szlig;e Datenmengen schnell erfassbar zu machen</h4></li><li><h4>aber gute Vorauswahl/Filterung notwendig + nicht blind vertrauen</h4></li><li><h4>ML in unserer Form: weniger geeignet, nur den Anschein von W&ouml;rtern</h4></li></ul></li></ul><div style="padding-left: 40px;">&nbsp;</div><h3 style="text-align: center;">Ausblick</h3><ul><li style="list-style-type: none;"><ul><li><h4>NLP Analysen verfeinern/automatisieren</h4></li><li><h4>Anderen ML Algorithmus w&auml;hlen</h4></li></ul></li></ul>'
+    st.markdown(fazit_slide_presentation, unsafe_allow_html=True)
     
 
 if __name__ == "__main__":
