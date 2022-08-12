@@ -48,10 +48,7 @@ def load_data(ticker):
 
 
 # Global variables
-#webApp_title = '<p style="font-family:helvetica; color:white; font-size: 80px;"> <center>🤑 Stock Web-App 🤑</center></p>'
 data = load_data('TSLA')
-#file = open('wallstreetbet.txt')
-#wallstreetbets_data = file.read(encoding='uft-8')
 
 def main():
     pass
@@ -172,23 +169,16 @@ def filter_stopwords(list_to_be_cleared):
 
 def frequency_dist_dict(cleared_list):
     frequency_dist = FreqDist(cleared_list)
-
-    #dictionaries cant be sorted so its getting sorted as a list and then cast back into a dict
     od = dict(sorted(frequency_dist.items(), key=lambda item: item[1], reverse=True))
-
-    #dictionaries cant be sliced so conversion to list in order to slice the first 20 instances (can be changed)
     first_twenty = list(od.items())[:20]
-
-    #conversion back into a dict
     final_dict = {}
     final_dict.update(first_twenty)
-    
     keyList = list(final_dict.keys())
     valueList = list(final_dict.values())
-    
     st.subheader("Frequency Analysis")
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Frequency of occurring words '))
+    fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Frequency of occurring words ',mode='lines+amarkers+text',line=dict(width=4)))
+    fig.update_traces(textposition='top center')
     fig.layout.update(height=900,font=dict(
         family="Helvetica",
         size=17,
@@ -233,7 +223,6 @@ def show_wordcloud(cleared):
 
 
 def collocations(cleared_list):
-
     lemmatizer = WordNetLemmatizer()
     lemmatized_words = [lemmatizer.lemmatize(word) for word in cleared_list]
     new_text = nltk.Text(lemmatized_words)
@@ -257,9 +246,6 @@ def sentiment_anaylsis(cleaned_list):
         pos_avg = pos / number
         neg_avg = neg / number
         neu_avg = neu/number
-        #print("Positive = " + str(pos_avg))
-        #print("Negative = " + str(neg_avg))
-        #print("Neutral =  " + str(neu_avg))
         
         st.subheader('Sentiment Analysis')
         labels = 'Positive', 'Negative', 'Neutral'
@@ -268,12 +254,9 @@ def sentiment_anaylsis(cleaned_list):
 
         fig1, ax1 = plt.subplots()
         ax1.pie(sizes, labels=labels, autopct='%1.0f%%',shadow=True, startangle=90)
-        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-
+        ax1.axis('equal')
         st.pyplot(fig1)
 
-
-#maps nltk Part of Speech tags to wordnet tags
 def get_wordnet_pos(treebank_tag):
     if treebank_tag.startswith('J'):
         return wordnet.ADJ
@@ -286,8 +269,6 @@ def get_wordnet_pos(treebank_tag):
     else:
         return None
 
-
-#lemmantizes a text
 def lemmantize_text(cleared_list):
 
     cl = []
@@ -350,10 +331,19 @@ def main():
     with col1:
         st.write("")
     with col2:
+        st.image('FaustSchlecht.png')
+        st.image('FaustGut.png')
         st.image('TeslaBot.png')
     with col3:
         st.write("")
     ###########
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
     fazit_slide_presentation = '<h2 style="text-align: center;">Fazit</h2><ul><li style="list-style-type: none;"><ul><li><h4>NLP : sehr geeignet um gro&szlig;e Datenmengen schnell erfassbar zu machen</h4></li><li><h4>aber gute Vorauswahl/Filterung notwendig + nicht blind vertrauen</h4></li><li><h4>ML in unserer Form: weniger geeignet, nur den Anschein von W&ouml;rtern</h4></li></ul></li></ul><div style="padding-left: 40px;">&nbsp;</div><h3 style="text-align: center;">Ausblick</h3><ul><li style="list-style-type: none;"><ul><li><h4>NLP Analysen verfeinern/automatisieren</h4></li><li><h4>Anderen ML Algorithmus w&auml;hlen</h4></li></ul></li></ul>'
     st.markdown(fazit_slide_presentation, unsafe_allow_html=True)
     
