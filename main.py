@@ -75,7 +75,7 @@ def plot_raw_data():
 
 def preprocessing():
     #open text file you want to analyze
-    f = open('tesla_news.txt', 'r', encoding='utf8') # tesla.txt und die ganzen Analysen machen für das dashboard und dann in kapitel in 9 die ergebnisse einfügen 
+    f = open('tesla_allfinance_50k.txt', 'r', encoding='utf8') # tesla.txt und die ganzen Analysen machen für das dashboard und dann in kapitel in 9 die ergebnisse einfügen 
     raw = f.read()
 
     #tokenize by words and make into nltk text
@@ -177,7 +177,7 @@ def frequency_dist_dict(cleared_list):
     valueList = list(final_dict.values())
     st.subheader("Frequency Analysis")
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Frequency of occurring words ',mode='lines+amarkers+text',line=dict(width=4)))
+    fig.add_trace(go.Scatter(x=keyList,y= valueList,name='Frequency of occurring words '))
     fig.update_traces(textposition='top center')
     fig.layout.update(height=900,font=dict(
         family="Helvetica",
@@ -288,17 +288,44 @@ def main():
     st.markdown(title_slide_presentation, unsafe_allow_html=True)
     st.title('')
     st.title('')
+    st.title('')
+    st.title('')
+    agenda_slide = '<h2 style="text-align: center;">Agenda</h2><h4 style="text-align: center;">Einstieg und Motivation&nbsp;</h4><h4 style="text-align: center;">Ergebnisse NLP&nbsp;</h4><h4 style="text-align: center;">Ergebnisse ML</h4><h4 style="text-align: center;">Fazit und Ausblick</h4>' 
+    st.markdown(agenda_slide, unsafe_allow_html=True)
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
+    st.title('')
     ##############
-    einstieg_slide_presentation = '<h2 style="text-align: center;">Unsere Motivation</h2><ul><li style="list-style-type: none;"><ul><li><h4>Entscheidungshilfe f&uuml;r Investoren in Form eines Dashboards</h4></li><li><h4>Stimmungslage in den sozialen Medien auffassen</h4></li><li><h4>Unsere Idee: NLP von Redditkommentaren und Nachrichten zu Aktien</h4></li><li><h4>ML Algorithmus der &auml;hnliche Posts produzieren soll</h4></li></ul></li></ul><h4>&nbsp;</h4>'    
-    st.markdown(einstieg_slide_presentation, unsafe_allow_html=True)
-    ##############
+    motivation_title = '<h2 style="text-align: center;">Unsere Motivation</h2>'
+    st.markdown(motivation_title, unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1,1.5,1])
     with col1:
         st.write("")
     with col2:
-        st.image('unknown.png')
+        st.image('unknown.png', use_column_width=True)
     with col3:
         st.write("")
+    einstieg_slide_presentation = '<ul><li style="list-style-type: none;"><ul><li><h4>Entscheidungshilfe f&uuml;r Investoren in Form eines Dashboards</h4></li><li><h4>Stimmungslage in den sozialen Medien auffassen</h4></li><li><h4>Unsere Idee: NLP von Redditkommentaren und Nachrichten zu Aktien</h4></li><li><h4>ML Algorithmus der &auml;hnliche Posts produzieren soll</h4></li></ul></li></ul><h4>&nbsp;</h4>'    
+    st.markdown(einstieg_slide_presentation, unsafe_allow_html=True)
+    ##############
     st.title('')
     st.title('')
     st.title('')
